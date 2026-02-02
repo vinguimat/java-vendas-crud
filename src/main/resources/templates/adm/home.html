@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap 4 CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <title>Sistema de Vendas</title>
+
+    <style>
+        .menu-title {
+            cursor: pointer;
+        }
+        .menu-title i {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Sistema de Vendas</a>
+</nav>
+
+<div class="container-fluid mt-3">
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <div class="col-md-3">
+            <ul class="list-group">
+
+                <!-- FUNCIONALIDADES -->
+                <li class="list-group-item bg-dark text-white menu-title"
+                    data-toggle="collapse"
+                    data-target="#menuFuncionalidades">
+                    <i class="fa-solid fa-gear"></i> Funcionalidades
+                </li>
+
+                <div class="collapse" id="menuFuncionalidades">
+                    <a href="/registerSelling" class="list-group-item list-group-item-action">
+                        Efetuar Venda
+                    </a>
+                    <a href="/listSelling" class="list-group-item list-group-item-action">
+                        Listar Vendas
+                    </a>
+                    <a href="/registerEntry" class="list-group-item list-group-item-action">
+                        Entrada de Produto
+                    </a>
+                    <a href="/listEntry" class="list-group-item list-group-item-action">
+                        Listar Entradas
+                    </a>
+                </div>
+
+                <!-- CADASTROS -->
+                <li class="list-group-item bg-dark text-white menu-title mt-2"
+                    data-toggle="collapse"
+                    data-target="#menuCadastros">
+                    <i class="fa-solid fa-plus"></i> Cadastros
+                </li>
+
+                <div class="collapse" id="menuCadastros">
+                    <a href="/registerState" class="list-group-item list-group-item-action">
+                        Cadastro de Estado
+                    </a>
+                    <a href="/registerCity" class="list-group-item list-group-item-action">
+                        Cadastro de Cidade
+                    </a>
+                    <a href="/registerEmployee" class="list-group-item list-group-item-action">
+                        Cadastro de Funcionário
+                    </a>
+                    <a href="/registerCustomer" class="list-group-item list-group-item-action">
+                        Cadastro de Cliente
+                    </a>
+                    <a href="/registerSupplier" class="list-group-item list-group-item-action">
+                        Cadastro de Fornecedor
+                    </a>
+                    <a href="/registerProduct" class="list-group-item list-group-item-action">
+                        Cadastro de Produto
+                    </a>
+                </div>
+
+                <!-- LISTAS -->
+                <li class="list-group-item bg-dark text-white menu-title mt-2"
+                    data-toggle="collapse"
+                    data-target="#menuListas">
+                    <i class="fa-solid fa-list"></i> Listas
+                </li>
+
+                <div class="collapse" id="menuListas">
+                    <a href="/listState" class="list-group-item list-group-item-action">
+                        Lista de Estados
+                    </a>
+                    <a href="/listCity" class="list-group-item list-group-item-action">
+                        Lista de Cidades
+                    </a>
+                    <a href="/listEmployee" class="list-group-item list-group-item-action">
+                        Lista de Funcionários
+                    </a>
+                    <a href="/listCustumer" class="list-group-item list-group-item-action">
+                        Lista de Clientes
+                    </a>
+                    <a href="/listSupplier" class="list-group-item list-group-item-action">
+                        Lista de Fornecedores
+                    </a>
+                    <a href="/listProduct" class="list-group-item list-group-item-action">
+                        Lista de Produtos
+                    </a>
+                </div>
+
+            </ul>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-md-9">
+            <h2>Sistema feito para gerenciar suas vendas</h2>
+            <p>Use para gerenciar!</p>
+            <p class="text-muted">@Feito em 2026</p>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS (Bootstrap 4 order matters) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+</body>
+</html>

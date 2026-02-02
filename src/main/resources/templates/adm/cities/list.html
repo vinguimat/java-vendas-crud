@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="https://thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.css" />
+
+    <title>Lista de Cidades</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/adm">Sistema de Vendas</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/adm">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/listCity">Lista de Cidades</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- MENU LATERAL -->
+        <div class="col-md-3">
+            <ul class="list-group mt-3">
+                <li class="list-group-item bg-dark text-white">Menu</li>
+                <a href="/registerCity" class="list-group-item list-group-item-action">
+                    Cadastro de Cidades
+                </a>
+                <a href="/listCity" class="list-group-item list-group-item-action">
+                    Lista de Cidades
+                </a>
+            </ul>
+        </div>
+
+        <!-- CONTEÚDO -->
+        <div class="col-md-9 mt-3">
+            <h3>Lista de Cidades</h3>
+            <hr>
+
+            <table class="table table-striped table-bordered" id="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CEP</th>
+                    <th>Estado</th>
+                    <th>Ações</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="city : ${listCity}">
+                    <td th:text="${city.id}"></td>
+                    <td th:text="${city.name}"></td>
+                    <td th:text="${city.cep}"></td>
+                    <td th:text="${city.state.name}"></td>
+                    <td>
+                        <a class="btn btn-sm btn-warning"
+                           th:href="@{/editCity/{id}(id=${city.id})}">
+                            Editar
+                        </a>
+                        <a class="btn btn-sm btn-danger"
+                           th:href="@{/removeCity/{id}(id=${city.id})}">
+                            Remover
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+<script src="https://cdn.datatables.net/2.3.6/js/dataTables.js"></script>
+
+<script>
+    $(document).ready( function () {
+    $('#table').DataTable();
+    } );
+
+    var table = new DataTable('#table', {
+    language: {
+        url: '//cdn.datatables.net/plug-ins/2.3.6/i18n/pt-BR.json',
+    },
+    });
+</script>
+</body>
+</html>

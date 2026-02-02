@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="https://thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+    <title>Entrada de Produtos</title>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/adm">Sistema de Vendas</a>
+
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/adm">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/registerEntry">Entrada de Produtos</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- MENU LATERAL -->
+        <div class="col-md-3">
+            <ul class="list-group mt-3">
+                <li class="list-group-item bg-dark text-white">Menu</li>
+                <a href="/registerEntry" class="list-group-item list-group-item-action">
+                    Cadastro de Entradas
+                </a>
+                <a href="/listEntry" class="list-group-item list-group-item-action">
+                    Lista de Entradas
+                </a>
+            </ul>
+        </div>
+
+        <!-- CONTEÚDO -->
+        <div class="container">
+            <h3>Cadastro de Entrada</h3>
+            <hr>
+
+            <form th:action="@{/saveEntry}" th:object="${entry}" method="post">
+                
+                <div class="form-group">
+                    <label>ID</label>
+                    <input type="text" class="form-control" readonly th:field="*{id}">
+
+                    <label>Observação:</label>
+                    <input type="text" class="form-control" th:field="*{obs}">
+
+                    <label>Fornecedor:</label>
+                    <select th:field="*{supplier}" class="form-control">
+                        <option value="">Selecione</option>
+                        <option th:each="supplier : ${listSupplier}" th:value="${supplier.id}" th:text="${supplier.name}"></option>
+                    </select>
+
+                    <label>Funcionário:</label>
+                    <select th:field="*{employee}" class="form-control">
+                        <option value="">Selecione</option>
+                        <option th:each="employee : ${listEmployee}" th:value="${employee.id}" th:text="${employee.name}"></option>
+                    </select>
+
+                    <label>Quantidade Total:</label>
+                    <input type="text" readonly="readonly" class="form-control" th:field="*{totalQuantity}">
+
+                    <label>Valor Total:</label>
+                    <input type="text" readonly="readonly" class="form-control" th:field="*{totalValue}">
+
+
+                    <!-- COMEÇA productEntry abaixo -->
+
+                    <div class="form-row" th:object="${productEntry}">
+
+                        <label>Produto:</label>
+                        <select th:field="*{product}" class="form-control">
+                            <option value="">Selecione</option>
+                            <option th:each="product : ${listProduct}" th:value="${product.id}" th:text="${product.name}"></option>
+                        </select>
+
+                        <label>Quantidade:</label>
+                        <input type="text" class="form-control" th:field="*{quantity}">
+
+                        <label>Valor de Custo:</label>
+                        <input type="text" class="form-control" th:field="*{priceCost}">
+
+                        <label>Valor de Venda:</label>
+                        <input type="text" class="form-control" th:field="*{price}">
+
+                        <button name="action" th:value="products" type="submit" class="btn btn-primary">Adicionar</button>
+
+                    </div>
+
+                    <!--    TABELA COM OS ITENS  -->
+
+                    <table class="table table-striped table-bordered" id="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <td>ID</td>
+                            <td>Produto</td>
+                            <td>Quantidade</td>
+                            <td>Valor Custo</td>
+                            <td>Valor Venda</td>
+                            <td>Ações</td>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr th:each="productEntry : ${listOfProductEntry}">
+                            <td th:text="${productEntry.id}"></td>
+                            <td th:text="${productEntry.product.name}"></td>
+                            <td th:text="${productEntry.quantity}"></td>
+                            <td th:text="${productEntry.priceCost}"></td>
+                            <td th:text="${productEntry.price}"></td>
+                            <td>
+                                <a class="btn btn-sm btn-warning"
+                                   th:href="@{/editEntry/{id}(id=${productEntry.id})}">
+                                    Editar
+                                </a>
+                                <a class="btn btn-sm btn-danger"
+                                   th:href="@{/removeEntry/{id}(id=${productEntry.id})}">
+                                    Remover
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <button name="action" th:value="save" type="submit" class="btn btn-primary">Salvar</button>
+                <a href="/adm" class="btn btn-secondary">Voltar</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    $(document).ready(function(){
+    $('#cep').mask('99.999-999');
+    })
+</script>
+
+</body>
+</html>
