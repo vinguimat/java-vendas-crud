@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,18 +54,23 @@ public class EntryController {
         return mv;
     }
 
-//    @GetMapping("/editEntry/{id}")
-//    public ModelAndView edit(@PathVariable("id") Long id) {
-//        Optional<Entry> entry = entryRepository.findById(id);
-//        return register(entry.get());
-//    }
+    @GetMapping("/editEntry/{id}")
+    public ModelAndView edit(@PathVariable("id") Long id, HttpSession session) {
+        Optional<Entry> entry = entryRepository.findById(id);
 
-//    @GetMapping("/removeEntry/{id}")
-//    public ModelAndView remove(@PathVariable("id") Long id) {
-//        Optional<Entry> entry = entryRepository.findById(id);
-//        entryRepository.delete(entry.get());
-//        return list();
-//    }
+        List<ProductEntry> items = productentryRepository.searchForEntry(entry.get().getId());
+
+        session.setAttribute("listOfProductEntry", items);
+
+        return register(entry.get(), new ProductEntry(), session);
+    }
+
+    @GetMapping("/removeEntry/{id}")
+    public ModelAndView remove(@PathVariable("id") Long id) {
+        Optional<Entry> entry = entryRepository.findById(id);
+        entryRepository.delete(entry.get());
+        return list();
+    }
 
     @PostMapping("/saveEntry")
     public ModelAndView save(String action, Entry entry, ProductEntry productEntry, BindingResult result, HttpSession session) {
@@ -82,7 +88,10 @@ public class EntryController {
         if (action.equals("products")) {
 
             listOfProductEntry.add(productEntry);// ADICIONA PRODUTO NA LISTA
+            entry.setTotalQuantity(entry.getTotalQuantity() + productEntry.getQuantity());
+            entry.setTotalValue(entry.getTotalValue() + productEntry.getPrice());
             session.setAttribute("listOfProductEntry", listOfProductEntry); // ✅ Salva na sessão
+
 
         } else if (action.equals("save")) { // SE O BOTAO SALVAR FOR ACIONADO
 
