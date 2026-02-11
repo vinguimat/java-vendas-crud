@@ -80,6 +80,11 @@
                         <div class="col-md">
                             <label>CNPJ</label>
                             <input type="text" class="form-control" id="cnpj" th:field="*{cnpj}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('cnpj')}"
+                                 th:errors="*{cnpj}">
+                            </div>
                         </div>
 
                     </div>
@@ -124,7 +129,13 @@
                                         th:text="${city.name}">
                                 </option>
                             </select>
+                            <div class="text-danger"
+                                  th:if="${#fields.hasErrors('city')}"
+                                  th:errors="*{city}">
+                            </div>
                         </div>
+
+
 
                     </div>
                 </div>

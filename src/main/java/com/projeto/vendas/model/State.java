@@ -1,6 +1,7 @@
 package com.projeto.vendas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 
 import java.io.Serializable;
@@ -13,6 +14,8 @@ public class State implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Preencha este campo")
     private String name;
     private String stabbreviation;
 

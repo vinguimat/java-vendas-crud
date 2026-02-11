@@ -2,6 +2,8 @@ package com.projeto.vendas.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.io.Serializable;
 
@@ -16,11 +18,25 @@ public class Product implements Serializable {
 
     @NotBlank(message = "Preencha este campo")
     private String name;
+
+    @NotBlank(message = "Preencha este campo")
     private String barcode;
+
+    @NotBlank(message = "Preencha este campo")
     private String unitOfMeasure;
+
+    @NotNull(message = "Preencha este campo")
+    @PositiveOrZero(message = "Valor não pode ser negativo")
     private Double stock = 0.00;
+
+    @NotNull(message = "Preencha este campo")
+    @PositiveOrZero(message = "Valor não pode ser negativo")
     private Double priceCost = 0.00;
+
+    @NotNull(message = "Preencha este campo")
+    @PositiveOrZero(message = "Valor não pode ser negativo")
     private Double priceSell = 0.00;
+
     private Double profit = 0.00;
     private Double profitMargin = 0.00;
 
@@ -94,5 +110,14 @@ public class Product implements Serializable {
 
     public void setProfitMargin(Double profitMargin) {
         this.profitMargin = profitMargin;
+    }
+
+    public double calculateProfit(double priceSell, double priceCost) {
+        return priceSell - priceCost;
+    }
+
+    public double calculateMargin(double profit, double priceSell) {
+
+        return (profit / priceSell) * 100;
     }
 }

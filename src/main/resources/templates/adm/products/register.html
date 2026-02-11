@@ -77,12 +77,20 @@
 
                     <div class="col-md">
                         <label>Código de Barras:</label>
-                        <input type="text" class="form-control" id="barcode" th:field="*{barcode}">
+                        <input type="text" class="form-control" th:field="*{barcode}">
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('barcode')}"
+                             th:errors="*{barcode}">
+                        </div>
                     </div>
 
                     <div class="col-md">
                         <label>Unidade de Medida:</label>
                         <input type="text" class="form-control" th:field="*{unitOfMeasure}">
+                        <div class="text-danger"
+                             th:if="${#fields.hasErrors('unitOfMeasure')}"
+                             th:errors="*{unitOfMeasure}">
+                        </div>
                     </div>
 
 
@@ -91,26 +99,31 @@
                         <div class="col-md">
                             <label>Estoque:</label>
                             <input type="number" class="form-control" id="stock" th:field="*{stock}">
+                            <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></span>
+
                         </div>
 
                         <div class="col-md">
                             <label>Preço de Custo:</label>
-                            <input type="text" class="form-control" id="price_cost" th:field="*{priceCost}">
+                            <input type="text" class="form-control" id="priceCost" th:field="*{priceCost}">
+                            <span th:if="${#fields.hasErrors('priceCost')}" th:errors="*{priceCost}"></span>
                         </div>
 
                         <div class="col-md">
                             <label>Preço de Venda:</label>
-                            <input type="text" class="form-control" id="price_sell" th:field="*{priceSell}">
+                            <input type="text" class="form-control" id="priceSell" th:field="*{priceSell}">
+                            <span th:if="${#fields.hasErrors('priceSell')}" th:errors="*{priceSell}"></span>
+
                         </div>
 
                         <div class="col-md">
                             <label>Lucro:</label>
-                            <input type="number" class="form-control" th:field="*{profit}">
+                            <input type="text" class="form-control" id="profit" readonly th:field="*{profit}">
                         </div>
 
                         <div class="col-md">
                             <label>Margem de Lucro:</label>
-                            <input type="number" class="form-control" th:field="*{profitMargin}">
+                            <input type="text" class="form-control" id="profitMargin" readonly th:field="*{profitMargin}">
                         </div>
 
                     </div>
@@ -131,19 +144,67 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 <script>
     $(document).ready(function(){
-    $('#barcode').mask('999999999999');
-<!--    $('#priceCost').maskMoney({-->
-<!--        prefix:'R$ ',-->
-<!--        allowNegative: false,-->
-<!--        thousands:'.',-->
-<!--        decimal:',',-->
-<!--        affixesStay: true});-->
-<!--    $('#priceSell').maskMoney({-->
-<!--        prefix:'R$ ',-->
-<!--        allowNegative: false,-->
-<!--        thousands:'.',-->
-<!--        decimal:',',-->
-<!--        affixesStay: true});-->
+
+        // Máscara código de barras
+        $('#barcode').mask('999999999999');
+
+        // Máscara dinheiro
+        $('#priceCost, #priceSell, #profit').maskMoney({
+            prefix:'R$ ',
+            allowNegative: false,
+            thousands:'.',
+            decimal:',',
+            affixesStay: true
+        });
+
+        // Função para limpar máscara (ANTES DE SALVAR)
+        $('form').on('submit', function(){
+
+            $('#priceCost').maskMoney('unmasked');
+            $('#priceSell').maskMoney('unmasked');
+            $('#profit').maskMoney('unmasked');
+
+            let cost = $('#priceCost').val();
+            let sell = $('#priceSell').val();
+
+            $('#priceCost').val(cost.replace('.', '').replace(',', '.').replace('R$ ', ''));
+            $('#priceSell').val(sell.replace('.', '').replace(',', '.').replace('R$ ', ''));
+
+            let profit = $('#profit').val();
+            if(profit){
+                $('#profit').val(profit.replace('.', '').replace(',', '.').replace('R$ ', ''));
+            }
+
+            let margin = $('#profitMargin').val();
+            if(margin){
+                $('#profitMargin').val(margin.replace('%', '').trim());
+            }
+
+        });
+
+        // Calcular lucro automático
+        $('#priceCost, #priceSell').on('keyup', function(){
+
+            let cost = $('#priceCost').maskMoney('unmasked')[0] || 0;
+            let sell = $('#priceSell').maskMoney('unmasked')[0] || 0;
+
+            if(sell > 0){
+
+                let profit = sell - cost;
+
+                // 🔥 MARGEM REAL (sobre preço de venda)
+                let margin = (profit / sell) * 100;
+
+                $('#profit').val(profit.toFixed(2)).maskMoney('mask');
+
+                $('#profitMargin').val(margin.toFixed(2) + ' %');
+            } else {
+                $('#profit').val('').maskMoney('mask');
+                $('#profitMargin').val('');
+            }
+
+        });
+
     });
 </script>
 

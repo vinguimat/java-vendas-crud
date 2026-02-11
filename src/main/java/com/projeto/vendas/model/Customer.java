@@ -16,6 +16,8 @@ public class Customer implements Serializable {
 
     @NotBlank(message = "Preencha este campo")
     private String name;
+
+    @NotBlank(message = "Preencha este campo")
     private String cpf;
     private String phoneNumber;
     private String address;

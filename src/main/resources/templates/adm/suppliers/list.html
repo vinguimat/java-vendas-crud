@@ -58,13 +58,12 @@
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>CPF</th>
+                    <th>CPNJ</th>
                     <th>Telefone</th>
                     <th>Endereço</th>
                     <th>Número</th>
                     <th>Bairro</th>
                     <th>Email</th>
-                    <th>Função</th>
                     <th>Cidade</th>
                     <th>Ação</th>
                 </tr>
@@ -74,7 +73,7 @@
                 <tr th:each="supplier : ${listSupplier}">
                     <td th:text="${supplier.id}"></td>
                     <td th:text="${supplier.name}"></td>
-                    <td th:text="${supplier.cpf}"></td>
+                    <td th:text="${supplier.cnpj}"></td>
                     <td th:text="${supplier.phoneNumber}"></td>
                     <td th:text="${supplier.address}"></td>
                     <td th:text="${supplier.number}"></td>
