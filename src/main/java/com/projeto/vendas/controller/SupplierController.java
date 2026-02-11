@@ -54,14 +54,16 @@ public class SupplierController {
     @PostMapping("/saveSupplier")
     public ModelAndView save(@Valid Supplier supplier, BindingResult result) {
 
-        if(result.hasErrors()) {
+        if (supplier.getCity() == null || supplier.getCity().getId() == null) {
+            result.rejectValue("city", "error.supplier", "Deve ser selecionado");
+        }
+
+        if (result.hasErrors()) {
             return register(supplier);
         }
 
-        Long cityId = supplier.getCity().getId();
-        City city = cityRepository.findById(cityId)
-                .orElseThrow(() -> new IllegalArgumentException("Cidade inválida"));
-
+        City city = cityRepository.findById(supplier.getCity().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Cidade Inválida"));
         supplier.setCity(city);
 
         supplierRepository.saveAndFlush(supplier);

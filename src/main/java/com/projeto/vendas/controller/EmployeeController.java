@@ -1,5 +1,6 @@
 package com.projeto.vendas.controller;
 
+import com.projeto.vendas.model.City;
 import com.projeto.vendas.model.Employee;
 import com.projeto.vendas.repository.EmployeeRepository;
 import com.projeto.vendas.repository.CityRepository;
@@ -53,9 +54,18 @@ public class EmployeeController {
     @PostMapping("/saveEmployee")
     public ModelAndView save(@Valid Employee employee, BindingResult result) {
 
-        if(result.hasErrors()) {
+        if (employee.getCity() == null || employee.getCity().getId() == null) {
+            result.rejectValue("city", "error.employee", "Deve ser selecionado");
+        }
+
+        if (result.hasErrors()) {
             return register(employee);
         }
+
+        City city = cityRepository.findById(employee.getCity().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Cidade Inválida"));
+        employee.setCity(city);
+
         employeeRepository.saveAndFlush(employee);
         return register(new Employee());
     }

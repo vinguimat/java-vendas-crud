@@ -80,8 +80,12 @@
                         <div class="col-md">
                             <label>CPF</label>
                             <input type="text" class="form-control" id="cpf" th:field="*{cpf}">
-                        </div>
 
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('cpf')}"
+                                 th:errors="*{cpf}">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -117,9 +121,15 @@
 
                         <div class="col-md">
                             <label>Cidade</label>
-                            <select th:field="*{city}" class="form-control">
+                            <select th:field="*{city.id}" class="form-control">
+                                <option value="">Selecione uma cidade</option>
                                 <option th:each="city : ${listCity}" th:value="${city.id}" th:text="${city.name}"></option>
                             </select>
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('city')}"
+                                 th:errors="*{city}">
+                            </div>
                         </div>
 
                     </div>

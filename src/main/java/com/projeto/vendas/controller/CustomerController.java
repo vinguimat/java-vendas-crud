@@ -1,5 +1,6 @@
 package com.projeto.vendas.controller;
 
+import com.projeto.vendas.model.City;
 import com.projeto.vendas.model.Customer;
 import com.projeto.vendas.repository.CityRepository;
 import com.projeto.vendas.repository.CustomerRepository;
@@ -53,9 +54,18 @@ public class CustomerController {
     @PostMapping("/saveCustomer")
     public ModelAndView save(@Valid Customer customer, BindingResult result) {
 
-        if(result.hasErrors()) {
+        if (customer.getCity() == null || customer.getCity().getId() == null) {
+            result.rejectValue("city", "error.customer", "Deve ser selecionado");
+        }
+
+        if (result.hasErrors()) {
             return register(customer);
         }
+
+        City city = cityRepository.findById(customer.getCity().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Cidade Inválida"));
+        customer.setCity(city);
+
         customerRepository.saveAndFlush(customer);
         return register(new Customer());
     }

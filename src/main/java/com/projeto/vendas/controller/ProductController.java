@@ -52,6 +52,11 @@ public class ProductController {
         if(result.hasErrors()) {
             return register(product);
         }
+
+        double profit = product.calculateProfit(product.getPriceSell(), product.getPriceCost());
+        product.setProfit(profit);
+        product.setProfitMargin(product.calculateMargin(profit, product.getPriceSell()));
+
         productRepository.saveAndFlush(product);
         return register(new Product());
     }

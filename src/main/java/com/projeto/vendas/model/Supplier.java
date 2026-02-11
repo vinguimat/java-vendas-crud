@@ -2,6 +2,7 @@ package com.projeto.vendas.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Entity
@@ -11,10 +12,14 @@ public class Supplier {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
+
+    @NotBlank(message = "Preencha este campo")
     private String name;
+
+    @NotBlank(message = "Preencha este campo")
     private String cnpj;
+
     private String phoneNumber;
     private String address;
     private String number;

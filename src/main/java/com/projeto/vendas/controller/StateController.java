@@ -2,6 +2,7 @@ package com.projeto.vendas.controller;
 
 import com.projeto.vendas.model.State;
 import com.projeto.vendas.repository.StateRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,10 +47,12 @@ public class StateController {
     }
 
     @PostMapping("/saveState")
-    public ModelAndView save(State state, BindingResult result) {
+    public ModelAndView save(@Valid State state, BindingResult result) {
+
         if(result.hasErrors()) {
             return register(state);
         }
+
         stateRepository.saveAndFlush(state);
         return register(new State());
     }
